@@ -9,17 +9,8 @@ import os, sys
 import urllib2
 from xml.dom import minidom
 
-def url_encode(cmd, apikey, secretkey):
+def url_encode(cmd, secretkey):
     """ Encode URL and return signature """ 
-    cmd = cmd+"&apikey="+apikey
-
-    # Sort command
-    cmd = cmd.split("&")
-    cmd.sort(key=lambda x: x[0])
-    cmd = "&".join(cmd)
-
-    # remove '+' signs
-    cmd = cmd.lower().replace('+','%20')
 
     # generate the digest
     digest = base64.b64encode(hmac.new(secretkey, cmd, hashlib.sha1).digest())
@@ -31,24 +22,34 @@ def url_encode(cmd, apikey, secretkey):
     return digest
 
 
-def command_encode(command, option_list=[]):
-    """ Correctly encode command and do sanity checks """
+def command_encode(command, apikey, option_list=[]):
+    """ Correctly encode and sort command and do sanity checks """
     if len(option_list) > 0:
-        return "command="+command+'&'+'&'.join(option_list)
+        command =  "command=" + command + '&' + '&'.join(option_list)
     else:
-        return "command="+command
+        command = "command=" + command
+    command = command + "&apikey=" + apikey
+
+    # Sort command
+    command = command.split("&")
+    command.sort(key=lambda x: x[0])
+    command = "&".join(command)
+
+    # remove '+' signs
+    command = command.lower().replace('+','%20')
+
+    return command
 
 def format_url(command, url, apikey, secretkey, option_list=[]):
     """ Method used to format an url the cloudstack way """
-    encoded_command = command_encode(command, option_list=option_list)
-    print encoded_command
-    digest = url_encode(encoded_command, apikey, secretkey)
+    encoded_command = command_encode(command = command, apikey = apikey, option_list = option_list)
+    digest = url_encode(encoded_command, secretkey)
 
-    return url + "api?apikey=" + apikey + "&" + encoded_command + "&signature=" + digest
+    return url + "api?" + encoded_command.replace(command.lower(),command) + "&signature=" + digest
 
 
-def get_env_api_key():
-    """ Get the api key from environment variables. 
+def getenv_apikey():
+    """ Get the api key from environment variables). 
     These variables can be 'CS_API_KEY' or 'EC2_ACCESS_KEY'
     """
     # Get API Key from env
@@ -61,7 +62,7 @@ def get_env_api_key():
         return os.getenv("CS_API_KEY")
 
 
-def get_env_secret_key():
+def getenv_secretkey():
     """ Get the secret key from environment variables. 
     These variables can be 'CS_SECRET_KEY' or 'EC2_SECRET_KEY'
     """
@@ -74,7 +75,7 @@ def get_env_secret_key():
     else:
         return os.getenv("CS_SECRET_KEY")
     
-def get_env_url():
+def getenv_url():
     """ Get the url from environment variables.
     Theses variables can be 'CS_URL' or 'EC2_URL'
     """
@@ -115,23 +116,23 @@ if __name__ == "__main__":
         options = args.options
 
     if args.apikey is None:
-        akey = get_env_api_key()
+        akey = getenv_apikey()
         if not akey:
-            sys.exit("APIKey not defined (neither as argument nor as env")
+            sys.exit("APIKey not defined (neither as argument nor as env)")
     else:
         akey = args.apikey
 
     if args.secretkey is None:
-        skey = get_env_secret_key()
+        skey = getenv_secretkey()
         if not skey:
-            sys.exit("SecretKey not defined (neither as argument nor as env")
+            sys.exit("SecretKey not defined (neither as argument nor as env)")
     else:
         skey = args.skey
 
     if args.url is None:
-        csurl = get_env_url()
+        csurl = getenv_url()
         if not csurl:
-            sys.exit("URL not defined (neither as arguement nor as env")
+            sys.exit("URL not defined (neither as arguement nor as env)")
     else:
         csurl = args.url
 
