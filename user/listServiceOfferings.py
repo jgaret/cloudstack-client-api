@@ -20,7 +20,7 @@ if __name__ == "__main__":
     parser.add_argument("--issystem",dest="issystem",help="is this a system vm offering")
     parser.add_argument("--keyword",dest="keyword",help="List by keyword")
     parser.add_argument("--name",dest="name",help="name of the service offering")
-    parser.add_argument("--systemvmtype",dest="systemvmtype",help="the system VM type. Possible types are "consoleproxy", "secondarystoragevm" or "domainrouter".")
+    parser.add_argument("--systemvmtype",dest="systemvmtype",help="the system VM type. Possible types are 'consoleproxy', 'secondarystoragevm' or 'domainrouter'.")
     parser.add_argument("--virtualmachineid",dest="virtualmachineid",help="the ID of the virtual machine. Pass this in if you want to see the available service offering that a virtual machine can be changed to.")
 
     args = parser.parse_args()

@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="List all public, private, and privileged templates.")
  
-    parser.add_argument("templatefilter",help="possible values are "featured", "self", "self-executable", "executable", and "community".* featured-templates that are featured and are public* self-templates that have been registered/created by the owner* selfexecutable-templates that have been registered/created by the owner that can be used to deploy a new VM* executable-all templates that can be used to deploy a new VM* community-templates that are public.")
+    parser.add_argument("templatefilter",help="possible values are 'featured', 'self', 'self-executable', 'executable', and 'community'.* featured-templates that are featured and are public* self-templates that have been registered/created by the owner* selfexecutable-templates that have been registered/created by the owner that can be used to deploy a new VM* executable-all templates that can be used to deploy a new VM* community-templates that are public.")
     parser.add_argument("--account",dest="account",help="list template by account. Must be used with the domainId parameter.")
     parser.add_argument("--domainid",dest="domainid",help="list all templates in specified domain. If used with the account parameter, lists all templates for an account in the specified domain.")
     parser.add_argument("--hypervisor",dest="hypervisor",help="the hypervisor for which to restrict the search")
