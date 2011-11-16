@@ -25,6 +25,7 @@ if __name__ == "__main__":
     parser.add_argument("--group",dest="group",help="an optional group for the virtual machine")
     parser.add_argument("--hostid",dest="hostid",help="destination Host ID to deploy the VM to - parameter available for root admin only")
     parser.add_argument("--hypervisor",dest="hypervisor",help="the hypervisor on which to deploy the virtual machine")
+    parser.add_argument("--ipaddress",dest="ipaddress",help="the ip address for default vm's network")
     parser.add_argument("--keypair",dest="keypair",help="name of the ssh key pair used to login to the virtual machine")
     parser.add_argument("--name",dest="name",help="host name for the virtual machine")
     parser.add_argument("--networkids",dest="networkids",help="list of network ids used by virtual machine")
