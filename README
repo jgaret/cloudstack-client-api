@@ -6,3 +6,5 @@ To use it, you can export :
 - CS_API_KEY with the user's API key
 - CS_SECRET_KEY with the user's Secret key
 - CS_URL as url of the cloudstack management server (something like http://cloudctl.domain.tld:8080/client/)
+
+Needs more testing, especially against acton release and admin commands
